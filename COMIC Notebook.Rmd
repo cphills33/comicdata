@@ -1,0 +1,42 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+if (!require(haven)){
+  install.packages("haven", dependencies = TRUE)
+  require(haven)
+}
+
+if (!require(tidyverse)){
+  install.packages("tidyverse", dependencies = TRUE)
+  require(tidyverse)
+}
+
+if (!require(corrr)){
+  install.packages("corrr", dependencies = TRUE)
+  require(corrr)
+}
+```
+
+```{r}
+dataset <- read_sav("SuperHero Stats.sav")
+```
+
+
+```{r}
+dataset %>%
+  filter(Gender == "M") %>%
+    select(-Name, -Gender)%>%
+  correlate()%>%
+  stretch() %>%
+  filter(x == "Intelligence")
+```
+```{r}
+dataset %>%
+  select(Gender, Weight) %>%
+  filter(Weight < 600) %>%
+  with(t.test(Weight ~ Gender))
+```
+
